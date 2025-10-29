@@ -1,12 +1,17 @@
-const express = require('express')
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db");
 
-const app = express()
-const PORT = process.env.PORT || 5001
+connectDB();
 
-app.get('/ping', (req, res) => {
-  res.send('Server is alive')
-})
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+app.use("/api/doctors", require("./routes/doctorRoutes"));
+app.use("/api/patients", require("./routes/patientRoutes"));
+
+app.listen(process.env.PORT, () =>
+  console.log("Server running on port", process.env.PORT)
+);
