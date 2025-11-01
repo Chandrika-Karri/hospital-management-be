@@ -1,20 +1,24 @@
-// models/Doctor.js
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const DoctorSchema = new mongoose.Schema({
+const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  specialization: String,
-  workingHours: {
-    start: { type: String, required: true }, // e.g., "09:00"
-    end: { type: String, required: true }    // e.g., "18:00"
-  },
+  specialization: { type: String, required: true },
+  email: { type: String },
+  phone: { type: String },
+  experience: { type: Number },
+
+  // Doctor working hours (used to generate available time slots)
+  workStart: { type: String, required: true }, // e.g. "09:00"
+  workEnd: { type: String, required: true },   // e.g. "17:00"
+
+  // Appointment slots
   appointments: [
     {
-      time: { type: Date, required: true },
-      isBooked: { type: Boolean, default: false }
-    }
-  ]
+      time: { type: Date },
+      isBooked: { type: Boolean, default: false },
+    },
+  ],
 });
 
-
-module.exports = mongoose.model("Doctor", doctorSchema);
+const Doctor = mongoose.model("Doctor", doctorSchema);
+export default Doctor;
