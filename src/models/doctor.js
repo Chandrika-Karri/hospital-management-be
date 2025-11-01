@@ -1,8 +1,24 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const doctorSchema = new mongoose.Schema({
-  name: String,
-  specialization: String
+  name: { type: String, required: true },
+  specialization: { type: String, required: true },
+  email: { type: String },
+  phone: { type: String },
+  experience: { type: Number },
+
+  // Doctor working hours (used to generate available time slots)
+  workStart: { type: String, required: true }, // e.g. "09:00"
+  workEnd: { type: String, required: true },   // e.g. "17:00"
+
+  // Appointment slots
+  appointments: [
+    {
+      time: { type: Date },
+      isBooked: { type: Boolean, default: false },
+    },
+  ],
 });
 
-module.exports = mongoose.model("Doctor", doctorSchema);
+const Doctor = mongoose.model("Doctor", doctorSchema);
+export default Doctor;
