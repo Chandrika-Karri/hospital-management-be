@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true },
   specialization: { type: String, required: true },
-  email: { type: String },
-  phone: { type: String },
+  email: { type: String, required: true, unique: true },
+  phone: { type: String, required: true, unique: true },
   experience: { type: Number },
 
   // Doctor working hours (used to generate available time slots)
