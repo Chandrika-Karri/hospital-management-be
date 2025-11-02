@@ -4,6 +4,14 @@ export const registerDoctor = async (req, res) => {
   try {
     console.log("Request body:", req.body);
     const { name, specialization, email, phone, experience, availableFrom, availableTo } = req.body;
+    
+    const existingDoctor = await Doctor.findOne({
+      $or: [{ email }, { phone }]
+    });
+
+    if (existingDoctor) {
+      return res.status(400).json({ message: "A doctor with this email or phone already exists!" });
+    }
 
     const newDoctor = new Doctor({
       name,
